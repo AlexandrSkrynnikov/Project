@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Курс валют</title>
+    <title>Курс валют и инфляция</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,31 +21,47 @@
         .rate div {
             margin-bottom: 10px;
         }
+        .inflation {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff4500; /* Цвет инфляции */
+        }
     </style>
 </head>
 <body>
-    <h1>Курс валют</h1>
+    <h1>Курс валют и инфляция</h1>
     <div class="rate">
         <div>USD к EUR: <span id="usd-eur">Загружается...</span></div>
         <div>USD к RUB: <span id="usd-rub">Загружается...</span></div>
         <div>USD к BYN: <span id="usd-byn">Загружается...</span></div>
     </div>
+    <div class="inflation">
+        <div>Инфляция (годовая): <span id="inflation">Загружается...</span></div>
+    </div>
 
     <script>
-        // Получение данных с API Exchangerate API
-        fetch('https://api.exchangerate-api.com/v4/latest/USD')  // API для получения курса валют относительно USD
+        // Получение данных с API Exchangerate API для валют
+        fetch('https://api.exchangerate-api.com/v4/latest/USD')
             .then(response => response.json())
             .then(data => {
-                // Отображение данных на странице
-                document.getElementById('usd-eur').innerText = data.rates.EUR;  // Курс USD к EUR
-                document.getElementById('usd-rub').innerText = data.rates.RUB;  // Курс USD к RUB
-                document.getElementById('usd-byn').innerText = data.rates.BYN;  // Курс USD к BYN
+                document.getElementById('usd-eur').innerText = data.rates.EUR;
+                document.getElementById('usd-rub').innerText = data.rates.RUB;
+                document.getElementById('usd-byn').innerText = data.rates.BYN;
             })
             .catch(error => {
-                // Если ошибка при загрузке данных
                 document.getElementById('usd-eur').innerText = 'Ошибка загрузки данных';
                 document.getElementById('usd-rub').innerText = 'Ошибка загрузки данных';
                 document.getElementById('usd-byn').innerText = 'Ошибка загрузки данных';
+            });
+
+        // Получение данных о инфляции
+        fetch('https://api.inflationapi.com/latest?country=USA') // Пример URL
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('inflation').innerText = data.inflation_rate + '%';
+            })
+            .catch(error => {
+                document.getElementById('inflation').innerText = 'Ошибка загрузки данных';
             });
     </script>
 </body>
