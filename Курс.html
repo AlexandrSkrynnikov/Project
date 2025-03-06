@@ -12,40 +12,69 @@
         }
         h1 {
             color: #333;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 600px;
+            margin: 0 auto;
         }
         .rate {
-            margin-top: 20px;
             font-size: 18px;
             color: #333;
+            width: 48%;
         }
         .rate div {
             margin-bottom: 10px;
+        }
+        .column-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <h1>Курс валют</h1>
-    <div class="rate">
-        <div>USD к EUR: <span id="usd-eur">Загружается...</span></div>
-        <div>USD к RUB: <span id="usd-rub">Загружается...</span></div>
-        <div>USD к BYN: <span id="usd-byn">Загружается...</span></div>
+    <div class="container">
+        <div class="rate">
+            <div class="column-title">Основные валюты</div>
+            <div>USD к EUR: <span id="usd-eur">Загружается...</span></div>
+            <div>USD к RUB: <span id="usd-rub">Загружается...</span></div>
+            <div>USD к BYN: <span id="usd-byn">Загружается...</span></div>
+        </div>
+        <div class="rate">
+            <div class="column-title">Другие валюты</div>
+            <div>USD к GBP: <span id="usd-gbp">Загружается...</span></div>
+            <div>USD к CNY: <span id="usd-cny">Загружается...</span></div>
+            <div>USD к JPY: <span id="usd-jpy">Загружается...</span></div>
+        </div>
     </div>
 
     <script>
         // Получение данных с API Exchangerate API
-        fetch('https://api.exchangerate-api.com/v4/latest/USD')  // API для получения курса валют относительно USD
+        fetch('https://api.exchangerate-api.com/v4/latest/USD')  
             .then(response => response.json())
             .then(data => {
-                // Отображение данных на странице
-                document.getElementById('usd-eur').innerText = data.rates.EUR;  // Курс USD к EUR
-                document.getElementById('usd-rub').innerText = data.rates.RUB;  // Курс USD к RUB
-                document.getElementById('usd-byn').innerText = data.rates.BYN;  // Курс USD к BYN
+                // Основные валюты
+                document.getElementById('usd-eur').innerText = data.rates.EUR;  
+                document.getElementById('usd-rub').innerText = data.rates.RUB;  
+                document.getElementById('usd-byn').innerText = data.rates.BYN;  
+
+                // Дополнительные валюты
+                document.getElementById('usd-gbp').innerText = data.rates.GBP;  
+                document.getElementById('usd-cny').innerText = data.rates.CNY;  
+                document.getElementById('usd-jpy').innerText = data.rates.JPY;  
             })
             .catch(error => {
-                // Если ошибка при загрузке данных
-                document.getElementById('usd-eur').innerText = 'Ошибка загрузки данных';
-                document.getElementById('usd-rub').innerText = 'Ошибка загрузки данных';
-                document.getElementById('usd-byn').innerText = 'Ошибка загрузки данных';
+                const errorMessage = 'Ошибка загрузки данных';
+                document.getElementById('usd-eur').innerText = errorMessage;
+                document.getElementById('usd-rub').innerText = errorMessage;
+                document.getElementById('usd-byn').innerText = errorMessage;
+                document.getElementById('usd-gbp').innerText = errorMessage;
+                document.getElementById('usd-cny').innerText = errorMessage;
+                document.getElementById('usd-jpy').innerText = errorMessage;
             });
     </script>
 </body>
