@@ -1,0 +1,52 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс валют</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .rate {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .rate div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Курс валют</h1>
+    <div class="rate">
+        <div>USD к EUR: <span id="usd-eur">Загружается...</span></div>
+        <div>USD к RUB: <span id="usd-rub">Загружается...</span></div>
+        <div>USD к BYN: <span id="usd-byn">Загружается...</span></div>
+    </div>
+
+    <script>
+        // Получение данных с API Exchangerate API
+        fetch('https://api.exchangerate-api.com/v4/latest/USD')  // API для получения курса валют относительно USD
+            .then(response => response.json())
+            .then(data => {
+                // Отображение данных на странице
+                document.getElementById('usd-eur').innerText = data.rates.EUR;  // Курс USD к EUR
+                document.getElementById('usd-rub').innerText = data.rates.RUB;  // Курс USD к RUB
+                document.getElementById('usd-byn').innerText = data.rates.BYN;  // Курс USD к BYN
+            })
+            .catch(error => {
+                // Если ошибка при загрузке данных
+                document.getElementById('usd-eur').innerText = 'Ошибка загрузки данных';
+                document.getElementById('usd-rub').innerText = 'Ошибка загрузки данных';
+                document.getElementById('usd-byn').innerText = 'Ошибка загрузки данных';
+            });
+    </script>
+</body>
+</html>
